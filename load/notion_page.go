@@ -11,8 +11,12 @@ var (
 	client = notionapi.NewClient("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")
 )
 
-func GetPageById(id string) *notionapi.Page {
-	pageId := notionapi.PageID(id)
+type NotionPage struct {
+	ID string
+}
+
+func (n *NotionPage) GetPageById() *notionapi.Page {
+	pageId := notionapi.PageID(n.ID)
 	page, err := client.Page.Get(context.Background(), pageId)
 	if err != nil {
 		if strings.Contains(err.Error(), "Could not find page with ID") {
@@ -23,7 +27,7 @@ func GetPageById(id string) *notionapi.Page {
 	return page
 }
 
-func CreateDatabasePage() *notionapi.Page {
+func (n *NotionPage) CreateDatabasePage() *notionapi.Page {
 	page, err := client.Page.Create(context.Background(), &notionapi.PageCreateRequest{
 		Parent: notionapi.Parent{
 			DatabaseID: "16626ea29ff180e3a9d1e83f92622638",

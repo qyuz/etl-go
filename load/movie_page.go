@@ -11,11 +11,12 @@ type MoviePage struct {
 	notionPage *notionapi.Page
 }
 
-func Upsert(m *MoviePage, id string) {
-	page := m.notionPage.GetPageById(id)
+func (m *MoviePage) Upsert() {
+	notionPage := &NotionPage{ID: m.ID}
+	page := notionPage.GetPageById()
 	if page == nil {
 		fmt.Println("Page not found, creating new page")
-		page = CreateDatabasePage()
+		page = notionPage.CreateDatabasePage()
 	} else {
 		fmt.Println("Page found")
 	}
