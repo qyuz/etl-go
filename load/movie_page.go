@@ -1,9 +1,18 @@
 package load
 
-import "fmt"
+import (
+	"fmt"
 
-func Upsert(id string) {
-	page := GetPageById(id)
+	"github.com/jomei/notionapi"
+)
+
+type MoviePage struct {
+	ID         string
+	notionPage *notionapi.Page
+}
+
+func Upsert(m *MoviePage, id string) {
+	page := m.notionPage.GetPageById(id)
 	if page == nil {
 		fmt.Println("Page not found, creating new page")
 		page = CreateDatabasePage()
