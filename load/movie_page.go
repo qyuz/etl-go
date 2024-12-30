@@ -10,11 +10,10 @@ type MoviePage struct {
 }
 
 func (m *MoviePage) Upsert() {
-	notionPage := &NotionPageServiceImpl{}
-	pageExists := notionPage.CheckPageExists(m.ID)
+	pageExists := m.notionPageService.CheckPageExists(m.ID)
 	if pageExists {
 		fmt.Println("Page not found, creating new page")
-		notionPage.CreateDatabasePage()
+		m.notionPageService.CreateDatabasePage()
 	} else {
 		fmt.Println("Page found")
 	}
