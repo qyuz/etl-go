@@ -12,7 +12,7 @@ type MoviePage struct {
 }
 
 func (m *MoviePage) Upsert() {
-	notionPage := &NotionPageService{}
+	notionPage := &NotionPageServiceImpl{}
 	page := notionPage.GetPageById(m.ID)
 	if page == nil {
 		fmt.Println("Page not found, creating new page")
