@@ -14,16 +14,16 @@ var (
 type NotionPageServiceImpl struct {
 }
 
-func (n *NotionPageServiceImpl) GetPageById(id string) *notionapi.Page {
+func (n *NotionPageServiceImpl) CheckPageExists(id string) bool {
 	pageId := notionapi.PageID(id)
-	page, err := client.Page.Get(context.Background(), pageId)
+	_, err := client.Page.Get(context.Background(), pageId)
 	if err != nil {
 		if strings.Contains(err.Error(), "Could not find page with ID") {
-			return nil
+			return false
 		}
 		panic(err)
 	}
-	return page
+	return true
 }
 
 func (n *NotionPageServiceImpl) CreateDatabasePage() *notionapi.Page {
@@ -44,6 +44,18 @@ func (n *NotionPageServiceImpl) CreateDatabasePage() *notionapi.Page {
 		},
 	})
 	if err != nil {
+		panic(err)
+	}
+	return page
+}
+
+func (n *NotionPageServiceImpl) GetPageById(id string) *notionapi.Page {
+	pageId := notionapi.PageID(id)
+	page, err := client.Page.Get(context.Background(), pageId)
+	if err != nil {
+		if strings.Contains(err.Error(), "Could not find page with ID") {
+			return nil
+		}
 		panic(err)
 	}
 	return page

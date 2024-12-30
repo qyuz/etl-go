@@ -2,21 +2,19 @@ package load
 
 import (
 	"fmt"
-
-	"github.com/jomei/notionapi"
 )
 
 type MoviePage struct {
-	ID         string
-	notionPage *notionapi.Page
+	ID                string
+	notionPageService NotionPageService
 }
 
 func (m *MoviePage) Upsert() {
 	notionPage := &NotionPageServiceImpl{}
-	page := notionPage.GetPageById(m.ID)
-	if page == nil {
+	pageExists := notionPage.CheckPageExists(m.ID)
+	if pageExists {
 		fmt.Println("Page not found, creating new page")
-		page = notionPage.CreateDatabasePage()
+		notionPage.CreateDatabasePage()
 	} else {
 		fmt.Println("Page found")
 	}
