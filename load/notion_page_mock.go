@@ -2,8 +2,6 @@ package load
 
 import (
 	"fmt"
-
-	"github.com/jomei/notionapi"
 )
 
 type NotionPageServiceMock struct {
@@ -18,7 +16,7 @@ func (n *NotionPageServiceMock) CheckPageExists(id string) bool {
 	return false
 }
 
-func (n *NotionPageServiceMock) CreateDatabasePage() *notionapi.Page {
+func (n *NotionPageServiceMock) CreateDatabasePage(id string) string {
 	fmt.Println("Creating new page")
-	return nil
+	return "new_page_id"
 }

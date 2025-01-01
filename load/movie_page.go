@@ -18,5 +18,5 @@ func (m *MoviePage) Upsert() {
 	}
 
 	fmt.Println("Page not found, creating new page")
-	m.notionPageService.CreateDatabasePage()
+	m.notionPageService.CreateDatabasePage(m.ID)
 }
