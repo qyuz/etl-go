@@ -8,22 +8,25 @@ import (
 )
 
 var (
-	client = notionapi.NewClient("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")
+	client     = notionapi.NewClient("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")
+	databaseID = notionapi.DatabaseID("16626ea29ff180e3a9d1e83f92622638")
 )
 
 type NotionPageServiceImpl struct {
 }
 
-func (n *NotionPageServiceImpl) CheckPageExists(id string) bool {
-	pageId := notionapi.PageID(id)
-	_, err := client.Page.Get(context.Background(), pageId)
+func (n *NotionPageServiceImpl) CheckDatabasePageExists(property string, id string) bool {
+	DatabaseQueryResponse, err := client.Database.Query(context.Background(), databaseID, &notionapi.DatabaseQueryRequest{
+		Filter: notionapi.PropertyFilter{
+			Property: "Movie ID",
+			RichText: &notionapi.TextFilterCondition{Equals: id},
+		}})
+
 	if err != nil {
-		if strings.Contains(err.Error(), "Could not find page with ID") {
-			return false
-		}
 		panic(err)
 	}
-	return true
+
+	return len(DatabaseQueryResponse.Results) > 0
 }
 
 func (n *NotionPageServiceImpl) CreateDatabasePage(id string) string {
@@ -44,7 +47,7 @@ func (n *NotionPageServiceImpl) CreateDatabasePage(id string) string {
 			"Movie ID": notionapi.RichTextProperty{
 				RichText: []notionapi.RichText{
 					{
-						Text: &notionapi.Text{Content: "New Page"},
+						Text: &notionapi.Text{Content: id},
 					},
 				},
 			},

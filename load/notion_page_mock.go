@@ -7,7 +7,7 @@ import (
 type NotionPageServiceMock struct {
 }
 
-func (n *NotionPageServiceMock) CheckPageExists(id string) bool {
+func (n *NotionPageServiceMock) CheckDatabasePageExists(property string, id string) bool {
 	if id == "exists" {
 		fmt.Println("Page found")
 		return true
