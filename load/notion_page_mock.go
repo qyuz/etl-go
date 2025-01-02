@@ -5,10 +5,11 @@ import (
 )
 
 type NotionPageServiceMock struct {
+	CreateDatabasePageResult string
 }
 
 func (n *NotionPageServiceMock) CheckDatabasePageExists(property string, id string) bool {
-	if id == "exists" {
+	if property == "Movie ID" && id == "exists" {
 		fmt.Println("Page found")
 		return true
 	}
@@ -16,7 +17,15 @@ func (n *NotionPageServiceMock) CheckDatabasePageExists(property string, id stri
 	return false
 }
 
-func (n *NotionPageServiceMock) CreateDatabasePage(id string) string {
+func (n *NotionPageServiceMock) CreateDatabasePage(properties []Property) string {
 	fmt.Println("Creating new page")
-	return "new_page_id"
+
+	result := ""
+	for _, property := range properties {
+		result += property.GetName() + ":" + property.GetType() + ","
+	}
+
+	n.CreateDatabasePageResult = result
+
+	return result
 }

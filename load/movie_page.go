@@ -18,5 +18,8 @@ func (m *MoviePage) Upsert() {
 	}
 
 	fmt.Println("Page not found, creating new page")
-	m.notionPageService.CreateDatabasePage(m.ID)
+
+	titleProperty := TextProperty{Name: "Title", Text: "Movie Page"}
+	movieIdProperty := TextProperty{Name: "Movie ID", Text: m.ID}
+	m.notionPageService.CreateDatabasePage([]Property{titleProperty, movieIdProperty})
 }

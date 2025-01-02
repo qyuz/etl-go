@@ -29,7 +29,10 @@ func (n *NotionPageServiceImpl) CheckDatabasePageExists(property string, id stri
 	return len(DatabaseQueryResponse.Results) > 0
 }
 
-func (n *NotionPageServiceImpl) CreateDatabasePage(id string) string {
+func (n *NotionPageServiceImpl) CreateDatabasePage(properties []Property) string {
+	title := properties[0].(TextProperty).Text
+	movieId := properties[1].(TextProperty).Text
+
 	page, err := client.Page.Create(context.Background(), &notionapi.PageCreateRequest{
 		Parent: notionapi.Parent{
 			DatabaseID: "16626ea29ff180e3a9d1e83f92622638",
@@ -39,7 +42,7 @@ func (n *NotionPageServiceImpl) CreateDatabasePage(id string) string {
 				Title: []notionapi.RichText{
 					{
 						Text: &notionapi.Text{
-							Content: "New Page",
+							Content: title,
 						},
 					},
 				},
@@ -47,7 +50,7 @@ func (n *NotionPageServiceImpl) CreateDatabasePage(id string) string {
 			"Movie ID": notionapi.RichTextProperty{
 				RichText: []notionapi.RichText{
 					{
-						Text: &notionapi.Text{Content: id},
+						Text: &notionapi.Text{Content: movieId},
 					},
 				},
 			},
