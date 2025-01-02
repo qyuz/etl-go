@@ -5,7 +5,7 @@ import (
 )
 
 func TestCheckPageExists(t *testing.T) {
-	runIntegrationTests(t)
+	verifyShouldRunIntegrationTests(t)
 	notionPage := &NotionPageServiceImpl{}
 	pageExists := notionPage.CheckDatabasePageExists("Movie ID", "Movie ID")
 	if !pageExists {
@@ -14,7 +14,7 @@ func TestCheckPageExists(t *testing.T) {
 }
 
 func TestCheckPageDoesNotExist(t *testing.T) {
-	runIntegrationTests(t)
+	verifyShouldRunIntegrationTests(t)
 	notionPage := &NotionPageServiceImpl{}
 	pageExists := notionPage.CheckDatabasePageExists("Movie ID", "Movie ID that does not exist")
 	if pageExists {
@@ -23,7 +23,7 @@ func TestCheckPageDoesNotExist(t *testing.T) {
 }
 
 func TestGetPageById(t *testing.T) {
-	runIntegrationTests(t)
+	verifyShouldRunIntegrationTests(t)
 	notionPage := &NotionPageServiceImpl{}
 	page := notionPage.GetPageById("16626ea29ff180f39493cb1425c8ba54")
 	if page == nil {
@@ -32,7 +32,7 @@ func TestGetPageById(t *testing.T) {
 }
 
 func TestGetPageByIdDoesNotExist(t *testing.T) {
-	runIntegrationTests(t)
+	verifyShouldRunIntegrationTests(t)
 	notionPage := &NotionPageServiceImpl{}
 	page := notionPage.GetPageById("16626ea29ff180f39493cb1425c8ba55")
 	if page != nil {

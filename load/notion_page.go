@@ -9,7 +9,7 @@ type NotionPageService interface {
 	CreateDatabasePage(id string) string
 }
 
-func runIntegrationTests(t *testing.T) {
+func verifyShouldRunIntegrationTests(t *testing.T) {
 	if false {
 		t.Skip("skipping integration test")
 	}
