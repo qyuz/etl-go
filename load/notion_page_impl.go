@@ -15,11 +15,11 @@ var (
 type NotionPageServiceImpl struct {
 }
 
-func (n *NotionPageServiceImpl) CheckDatabasePageExists(property string, id string) bool {
+func (n *NotionPageServiceImpl) CheckDatabasePageExists(property TextProperty) bool {
 	DatabaseQueryResponse, err := client.Database.Query(context.Background(), databaseID, &notionapi.DatabaseQueryRequest{
 		Filter: notionapi.PropertyFilter{
-			Property: "Movie ID",
-			RichText: &notionapi.TextFilterCondition{Equals: id},
+			Property: property.GetName(),
+			RichText: &notionapi.TextFilterCondition{Equals: property.Text},
 		}})
 
 	if err != nil {

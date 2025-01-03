@@ -8,8 +8,8 @@ type NotionPageServiceMock struct {
 	CreateDatabasePageResult string
 }
 
-func (n *NotionPageServiceMock) CheckDatabasePageExists(property string, id string) bool {
-	if property == "Movie ID" && id == "exists" {
+func (n *NotionPageServiceMock) CheckDatabasePageExists(property TextProperty) bool {
+	if property.GetName() == "Movie ID" && property.Text == "exists" {
 		fmt.Println("Page found")
 		return true
 	}

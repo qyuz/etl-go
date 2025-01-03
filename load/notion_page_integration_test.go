@@ -7,7 +7,7 @@ import (
 func TestCheckPageExists(t *testing.T) {
 	verifyShouldRunIntegrationTests(t)
 	notionPage := &NotionPageServiceImpl{}
-	pageExists := notionPage.CheckDatabasePageExists("Movie ID", "Movie ID")
+	pageExists := notionPage.CheckDatabasePageExists(TextProperty{Name: "Movie ID", Text: "Movie ID"})
 	if !pageExists {
 		t.Error("Page should exist")
 	}
@@ -16,7 +16,7 @@ func TestCheckPageExists(t *testing.T) {
 func TestCheckPageDoesNotExist(t *testing.T) {
 	verifyShouldRunIntegrationTests(t)
 	notionPage := &NotionPageServiceImpl{}
-	pageExists := notionPage.CheckDatabasePageExists("Movie ID", "Movie ID that does not exist")
+	pageExists := notionPage.CheckDatabasePageExists(TextProperty{Name: "Movie ID", Text: "Movie ID that does not exist"})
 	if pageExists {
 		t.Error("Page should not exist")
 	}

@@ -10,7 +10,8 @@ type MoviePage struct {
 }
 
 func (m *MoviePage) Upsert() {
-	pageExists := m.notionPageService.CheckDatabasePageExists("Movie ID", m.ID)
+	property := TextProperty{Name: "Movie ID", Text: m.ID}
+	pageExists := m.notionPageService.CheckDatabasePageExists(property)
 
 	if pageExists {
 		fmt.Println("Page found")

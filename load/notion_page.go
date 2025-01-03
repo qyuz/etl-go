@@ -5,7 +5,7 @@ import (
 )
 
 type NotionPageService interface {
-	CheckDatabasePageExists(property string, id string) bool
+	CheckDatabasePageExists(property TextProperty) bool
 	CreateDatabasePage(properties []Property) string
 }
 
