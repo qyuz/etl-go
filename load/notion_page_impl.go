@@ -30,31 +30,37 @@ func (n *NotionPageServiceImpl) CheckDatabasePageExists(property string, id stri
 }
 
 func (n *NotionPageServiceImpl) CreateDatabasePage(properties []Property) string {
-	title := properties[0].(TextProperty).Text
-	movieId := properties[1].(TextProperty).Text
+	notionApiProperties := notionapi.Properties{}
+	for _, property := range properties {
+		switch property.GetName() {
+		case "Name":
+			notionApiProperties["Name"] = notionapi.TitleProperty{
+				Title: []notionapi.RichText{
+					{
+						Text: &notionapi.Text{
+							Content: property.(TextProperty).Text,
+						},
+					},
+				},
+			}
+		default:
+			notionApiProperties[property.GetName()] = notionapi.RichTextProperty{
+				RichText: []notionapi.RichText{
+					{
+						Text: &notionapi.Text{
+							Content: property.(TextProperty).Text,
+						},
+					},
+				},
+			}
+		}
+	}
 
 	page, err := client.Page.Create(context.Background(), &notionapi.PageCreateRequest{
 		Parent: notionapi.Parent{
 			DatabaseID: "16626ea29ff180e3a9d1e83f92622638",
 		},
-		Properties: notionapi.Properties{
-			"Name": notionapi.TitleProperty{
-				Title: []notionapi.RichText{
-					{
-						Text: &notionapi.Text{
-							Content: title,
-						},
-					},
-				},
-			},
-			"Movie ID": notionapi.RichTextProperty{
-				RichText: []notionapi.RichText{
-					{
-						Text: &notionapi.Text{Content: movieId},
-					},
-				},
-			},
-		},
+		Properties: notionApiProperties,
 	})
 	if err != nil {
 		panic(err)
