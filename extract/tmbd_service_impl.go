@@ -1,0 +1,92 @@
+package main
+
+import (
+	"encoding/json"
+	"io"
+	"net/http"
+
+	"github.com/ryanbradynd05/go-tmdb"
+)
+
+var (
+	apiKey = "2a5641277e811c5ab149ad870a6e7f2b"
+	bearer = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYTU2NDEyNzdlODExYzVhYjE0OWFkODcwYTZlN2YyYiIsIm5iZiI6MTczMzU2MDk2OC4xMDgsInN1YiI6IjY3NTQwYTg4M2E5YzY5OTBiMWU0ODVhZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.7VVoSWsAfesz9dckneFDajVMDRqX6XV67rR3nyoh3rU"
+)
+
+type TmdbServiceImpl struct {
+	tmdbApi *tmdb.TMDb
+}
+
+func NewTmdbService() TmdbService {
+	config := tmdb.Config{
+		APIKey: apiKey,
+	}
+	tmdbApi := tmdb.Init(config)
+
+	return TmdbServiceImpl{
+		tmdbApi: tmdbApi,
+	}
+}
+
+type GetWatchlistSeriesResponse struct {
+	Page    int `json:"page"`
+	Results []struct {
+		Adult            bool     `json:"adult"`
+		BackdropPath     string   `json:"backdrop_path"`
+		GenreIDS         []int    `json:"genre_ids"`
+		ID               int      `json:"id"`
+		OriginCountry    []string `json:"origin_country"`
+		OriginalLanguage string   `json:"original_language"`
+		OriginalName     string   `json:"original_name"`
+		Overview         string   `json:"overview"`
+		Popularity       float64  `json:populatiry"`
+		PosterPath       string   `json:"poster_path"`
+		//	FirstAirDate     time.Time `json:"first_air_date"`
+		Name        string  `json:"name"`
+		VoteAverage float64 `json:"vote_average"`
+		VoteCount   int     `json:"vote_count"`
+	} `json:"results"`
+	TotalPages   int `json:"total_pages"`
+	TotalResults int `json:"total_results"`
+}
+
+func (t TmdbServiceImpl) GetWatchlistSeries() []TmdbSeries {
+	// Docs at https://developer.themoviedb.org/reference/account-watchlist-tv
+	url := "https://api.themoviedb.org/3/account/21674720/watchlist/tv?language=en-US&page=1&sort_by=created_at.asc"
+
+	req, _ := http.NewRequest("GET", url, nil)
+
+	req.Header.Add("accept", "application/json")
+	req.Header.Add("Authorization", "Bearer "+bearer)
+
+	res, resErr := http.DefaultClient.Do(req)
+	if resErr != nil {
+		panic(resErr)
+	}
+
+	defer res.Body.Close()
+	body, bodyErr := io.ReadAll(res.Body)
+	if bodyErr != nil {
+		panic(bodyErr)
+	}
+
+	//var prettyJSON bytes.Buffer
+	//json.Indent(&prettyJSON, body, "", "\t")
+	//fmt.Println(string(prettyJSON.String()))
+
+	var watchlistSeriesResponse GetWatchlistSeriesResponse
+	jsonErr := json.Unmarshal(body, &watchlistSeriesResponse)
+	if jsonErr != nil {
+		panic(jsonErr)
+	}
+
+	tmdbSeries := []TmdbSeries{}
+	for _, series := range watchlistSeriesResponse.Results {
+		tmdbSeries = append(tmdbSeries, TmdbSeries{
+			ID:   series.ID,
+			Name: series.Name,
+		})
+	}
+
+	return tmdbSeries
+}
