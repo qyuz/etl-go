@@ -1,4 +1,4 @@
-package main
+package extract
 
 import (
 	"fmt"
@@ -6,6 +6,8 @@ import (
 )
 
 func TestGetWatchlistSeries(t *testing.T) {
+	verifyShouldRunIntegrationTests(t)
+
 	tmdbService := NewTmdbService()
 	tmdbSeries := tmdbService.GetWatchlistSeries()
 	if len(tmdbSeries) == 0 {
