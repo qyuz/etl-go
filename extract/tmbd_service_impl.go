@@ -8,22 +8,19 @@ import (
 	"github.com/ryanbradynd05/go-tmdb"
 )
 
-var (
-	apiKey = "2a5641277e811c5ab149ad870a6e7f2b"
-	bearer = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYTU2NDEyNzdlODExYzVhYjE0OWFkODcwYTZlN2YyYiIsIm5iZiI6MTczMzU2MDk2OC4xMDgsInN1YiI6IjY3NTQwYTg4M2E5YzY5OTBiMWU0ODVhZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.7VVoSWsAfesz9dckneFDajVMDRqX6XV67rR3nyoh3rU"
-)
-
 type TmdbServiceImpl struct {
+	bearer  string
 	tmdbApi *tmdb.TMDb
 }
 
-func NewTmdbService() TmdbService {
+func NewTmdbService(apiKey string, bearer string) TmdbService {
 	config := tmdb.Config{
 		APIKey: apiKey,
 	}
 	tmdbApi := tmdb.Init(config)
 
 	return TmdbServiceImpl{
+		bearer:  bearer,
 		tmdbApi: tmdbApi,
 	}
 }
@@ -57,7 +54,7 @@ func (t TmdbServiceImpl) GetWatchlistSeries() []TmdbSeries {
 	req, _ := http.NewRequest("GET", url, nil)
 
 	req.Header.Add("accept", "application/json")
-	req.Header.Add("Authorization", "Bearer "+bearer)
+	req.Header.Add("Authorization", "Bearer "+t.bearer)
 
 	res, resErr := http.DefaultClient.Do(req)
 	if resErr != nil {

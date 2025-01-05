@@ -1,6 +1,7 @@
 package extract
 
 import (
+	"etl/config"
 	"fmt"
 	"testing"
 )
@@ -8,7 +9,7 @@ import (
 func TestGetWatchlistSeries(t *testing.T) {
 	verifyShouldRunIntegrationTests(t)
 
-	tmdbService := NewTmdbService()
+	tmdbService := NewTmdbService(config.TmdbApiKey, config.TmdbBearer)
 	tmdbSeries := tmdbService.GetWatchlistSeries()
 	if len(tmdbSeries) == 0 {
 		t.Error("Expected at least one series in watchlist")

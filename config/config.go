@@ -1,0 +1,6 @@
+package config
+
+var (
+	TmdbApiKey = "2a5641277e811c5ab149ad870a6e7f2b"
+	TmdbBearer = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYTU2NDEyNzdlODExYzVhYjE0OWFkODcwYTZlN2YyYiIsIm5iZiI6MTczMzU2MDk2OC4xMDgsInN1YiI6IjY3NTQwYTg4M2E5YzY5OTBiMWU0ODVhZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.7VVoSWsAfesz9dckneFDajVMDRqX6XV67rR3nyoh3rU"
+)

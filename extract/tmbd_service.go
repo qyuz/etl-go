@@ -12,7 +12,7 @@ type TmdbSeries struct {
 }
 
 func verifyShouldRunIntegrationTests(t *testing.T) {
-	if true {
+	if false {
 		t.Skip("skipping integration test")
 	}
 }
