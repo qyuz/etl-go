@@ -7,7 +7,7 @@ import (
 
 func TransformTmdbWatchlistSeriesToNotionDb(tmdbSeries extract.TmdbSeries) *load.Movie {
 	return &load.Movie{
-		ID:   tmdbSeries.ID,
+		ID:   string(tmdbSeries.ID),
 		Name: tmdbSeries.Name,
 	}
 }
