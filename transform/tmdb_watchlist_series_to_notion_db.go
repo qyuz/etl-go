@@ -5,9 +5,9 @@ import (
 	"etl/load"
 )
 
-func TransformTmdbWatchlistSeriesToNotionDb(tmdbSeries extract.TmdbSeries) *load.Movie {
-	return &load.Movie{
-		ID:   string(tmdbSeries.ID),
+func TransformTmdbSeriesToNotionVideoMedia(tmdbSeries extract.TmdbSeries) load.VideoMedia {
+	return load.VideoMedia{
+		Id:   string(tmdbSeries.ID),
 		Name: tmdbSeries.Name,
 	}
 }

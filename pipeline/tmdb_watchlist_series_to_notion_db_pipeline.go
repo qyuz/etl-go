@@ -3,22 +3,27 @@ package pipeline
 import (
 	"etl/config"
 	"etl/extract"
+	"etl/load"
 	"etl/transform"
 	"fmt"
 )
 
 func InitAndRunTmdbWatchlistSeriesToNotionDbPipeline() {
 	tmdbService := extract.NewTmdbService(config.TmdbApiKey, config.TmdbBearer)
+	notionService := &load.NotionServiceImpl{}
 
-	RunTmdbWatchlistSeriesToNotionDbPipeline(tmdbService)
+	RunTmdbWatchlistSeriesToNotionDbPipeline(tmdbService, notionService)
 }
 
 func RunTmdbWatchlistSeriesToNotionDbPipeline(
 	tmdbService extract.TmdbService,
+	notionService load.NotionService,
 ) {
 	tmdbSeries := tmdbService.GetWatchlistSeries()
 	for _, series := range tmdbSeries {
-		notionPage := transform.TransformTmdbWatchlistSeriesToNotionDb(series)
-		fmt.Println("Creating Notion page for series: ", notionPage.Name)
+		videoMedia := transform.TransformTmdbSeriesToNotionVideoMedia(series)
+		notionService.UpsertVideoMedia(videoMedia)
+
+		fmt.Println("Creating Notion page for series: ", videoMedia.Name)
 	}
 }

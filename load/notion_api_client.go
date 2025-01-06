@@ -1,12 +1,8 @@
 package load
 
-import (
-	"testing"
-)
-
-type NotionPageService interface {
-	CheckDatabasePageExists(property TextProperty) bool
+type NotionApiClient interface {
 	CreateDatabasePage(properties []Property) string
+	QueryDatabasePageExists(property TextProperty) bool
 }
 
 type Property interface {
@@ -15,8 +11,8 @@ type Property interface {
 }
 
 type TextProperty struct {
-	Name string
-	Text string
+	Name  string
+	Value string
 }
 
 func (p TextProperty) GetName() string {
@@ -25,10 +21,4 @@ func (p TextProperty) GetName() string {
 
 func (p TextProperty) GetType() string {
 	return "text"
-}
-
-func verifyShouldRunIntegrationTests(t *testing.T) {
-	if true {
-		t.Skip("skipping integration test")
-	}
 }
