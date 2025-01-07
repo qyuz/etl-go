@@ -3,16 +3,23 @@ package pipeline
 import (
 	"etl/extract"
 	"etl/load"
+	"fmt"
 	"testing"
 )
 
 func TestRunTmdbWatchlistSeriesToNotionDbPipeline(t *testing.T) {
 	tmdbServiceMock := &extract.TmdbServiceMock{}
-	notionServiceMock := &load.NotionServiceMock{}
 
-	RunTmdbWatchlistSeriesToNotionDbPipeline(tmdbServiceMock, notionServiceMock)
+	notionApiClientMock := &load.NotionApiClientMock{}
+	notionService := &load.NotionServiceImpl{NotionApiClient: notionApiClientMock}
 
-	if len(notionServiceMock.UpsertVideoMediaCalls) != 2 {
-		t.Error("Expected UpsertVideoMedia to be called twice")
+	RunTmdbWatchlistSeriesToNotionDbPipeline(tmdbServiceMock, notionService)
+
+	if len(notionApiClientMock.QueryDatabasePageExistsCalls) != 2 {
+		panic(fmt.Sprintf("Expected QueryDatabasePageExists to be called 2 time, but was called %d times", len(notionApiClientMock.QueryDatabasePageExistsCalls)))
+	}
+
+	if len(notionApiClientMock.CreateDatabasePageCalls) != 2 {
+		panic(fmt.Sprintf("Expected CreateDatabasePage to be called 2 time, but was called %d times", len(notionApiClientMock.CreateDatabasePageCalls)))
 	}
 }
