@@ -24,6 +24,6 @@ func RunTmdbWatchlistSeriesToNotionDbPipeline(
 		videoMedia := transform.TransformTmdbSeriesToNotionVideoMedia(series)
 		notionService.UpsertVideoMedia(videoMedia)
 
-		fmt.Println("Creating Notion page for series: ", videoMedia.Name)
+		fmt.Println("Upserting Notion page for series: ", videoMedia.Name)
 	}
 }

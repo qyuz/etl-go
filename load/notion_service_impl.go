@@ -5,11 +5,17 @@ type NotionServiceImpl struct {
 }
 
 func (n *NotionServiceImpl) UpsertVideoMedia(videoMedia VideoMedia) {
-	movieIdProperty := TextProperty{"Movie Id", videoMedia.Id}
+	movieIdProperty := TextProperty{
+		Name:  "Movie Id",
+		Value: videoMedia.Id,
+	}
 
 	properties := []Property{
 		movieIdProperty,
-		TextProperty{"Name", videoMedia.Name},
+		TextProperty{
+			Name:  "Name",
+			Value: videoMedia.Name,
+		},
 	}
 
 	pageExists := n.NotionApiClient.QueryDatabasePageExists(movieIdProperty)
