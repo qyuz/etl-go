@@ -8,7 +8,7 @@ import (
 )
 
 func TestRunTmdbWatchlistSeriesToNotionDbPipeline(t *testing.T) {
-	tmdbServiceMock := extract.NewTmdbServiceMock()
+	tmdbServiceMock := extract.TmdbServiceMock{}
 
 	notionApiClientMock := &load.NotionApiClientMock{}
 	notionService := &load.NotionServiceImpl{NotionApiClient: notionApiClientMock}

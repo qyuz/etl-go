@@ -1,16 +1,19 @@
 package extract
 
 type TmdbServiceMock struct {
-	GetWatchlistSeriesData []TmdbSeries
+	GetWatchlistSeriesData *[]TmdbSeries
+	GetWatchlistSeriesMock *func() []TmdbSeries
 }
 
 type TmdbServiceMockOpts struct {
 	GetWatchlistSeriesData *[]TmdbSeries
+	GetWatchlistSeriesMock *func() []TmdbSeries
 }
 
 func NewTmdbServiceMock(tmdbServiceMockOpts ...TmdbServiceMockOpts) TmdbServiceMock {
 	var mockOpts *TmdbServiceMockOpts
 	var GetWatchlistSeriesData *[]TmdbSeries
+	var GetWatchlistSeriesMock *func() []TmdbSeries
 
 	if len(tmdbServiceMockOpts) > 0 {
 		mockOpts = &tmdbServiceMockOpts[0]
@@ -22,11 +25,25 @@ func NewTmdbServiceMock(tmdbServiceMockOpts ...TmdbServiceMockOpts) TmdbServiceM
 		GetWatchlistSeriesData = mockOpts.GetWatchlistSeriesData
 	}
 
-	return TmdbServiceMock{GetWatchlistSeriesData: *GetWatchlistSeriesData}
+	if mockOpts != nil {
+		if mockOpts.GetWatchlistSeriesMock != nil {
+			GetWatchlistSeriesMock = mockOpts.GetWatchlistSeriesMock
+		}
+	}
+
+	return TmdbServiceMock{
+		GetWatchlistSeriesData: GetWatchlistSeriesData,
+		GetWatchlistSeriesMock: GetWatchlistSeriesMock,
+	}
 }
 
 func (t *TmdbServiceMock) GetWatchlistSeries() []TmdbSeries {
-	return t.GetWatchlistSeriesData
+	if t.GetWatchlistSeriesMock != nil {
+		return (*t.GetWatchlistSeriesMock)()
+	} else {
+		return *TmdbServiceMock{}.GetWatchlistSeriesDefaultData()
+	}
+	return *t.GetWatchlistSeriesData
 }
 
 func (TmdbServiceMock) GetWatchlistSeriesDefaultData() *[]TmdbSeries {
