@@ -57,8 +57,8 @@ func TestRunTmdbWatchlistSeriesToNotionDbPipelineWhenPageExistShouldNotCreateNew
 }
 
 func TestRunTmdbWatchlistSeriesToNotionDbPipelineShouldUpsertAllProps(t *testing.T) {
-	// TODO: Implement this test
 	tmdbServiceMock := extract.TmdbServiceMock{}
+
 	notionApiClientMock := &load.NotionApiClientMock{}
 	notionService := &load.NotionServiceImpl{NotionApiClient: notionApiClientMock}
 
@@ -66,4 +66,27 @@ func TestRunTmdbWatchlistSeriesToNotionDbPipelineShouldUpsertAllProps(t *testing
 	RunTmdbWatchlistSeriesToNotionDbPipeline(&tmdbServiceMock, notionService)
 
 	// Assert
+	createdDatabasePageProps := notionApiClientMock.CreateDatabasePageCalls[0]
+	movieIdProperty, ok := createdDatabasePageProps[0].(load.TextProperty)
+	if !ok {
+		panic(fmt.Sprintf("Expected Movie Id property to be TextProperty, but got %s", movieIdProperty))
+	}
+	if movieIdProperty.GetName() != "Movie Id" {
+		panic(fmt.Sprintf("Expected Movie Id property to be created, but got %s", movieIdProperty.GetName()))
+	}
+	if movieIdProperty.Value != "1" {
+		panic(fmt.Sprintf("Expected Movie Id property value to be 1, but got %s", movieIdProperty.Value))
+	}
+
+	movieNameProperty, ok := createdDatabasePageProps[1].(load.TextProperty)
+	if !ok {
+		panic(fmt.Sprintf("Expected Name property to be TextProperty, but got %s", movieNameProperty))
+	}
+	if movieNameProperty.GetName() != "Name" {
+		panic(fmt.Sprintf("Expected Name property to be created, but got %s", movieNameProperty.GetName()))
+	}
+	if movieNameProperty.Value != "Breaking Bad" {
+		panic(fmt.Sprintf("Expected Name property value to be Breaking Bad, but got %s", movieNameProperty.Value))
+	}
+
 }
