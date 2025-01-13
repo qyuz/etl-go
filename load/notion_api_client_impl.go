@@ -7,9 +7,18 @@ import (
 )
 
 type NotionApiClientImpl struct {
-	apiKey     string
 	client     *notionapi.Client
 	databaseId string
+}
+
+func NewNotionApiClientImpl(apiKey string, databaseId string) *NotionApiClientImpl {
+	token := notionapi.Token(apiKey)
+	client := notionapi.NewClient(token)
+
+	return &NotionApiClientImpl{
+		client:     client,
+		databaseId: databaseId,
+	}
 }
 
 func (n *NotionApiClientImpl) CreateDatabasePage(properties []Property) string {

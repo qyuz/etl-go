@@ -10,9 +10,10 @@ import (
 
 func InitAndRunTmdbWatchlistSeriesToNotionDbPipeline() {
 	tmdbService := extract.NewTmdbService(config.TmdbApiKey, config.TmdbBearer)
-	notionService := &load.NotionServiceImpl{}
+	notionApiClient := load.NewNotionApiClientImpl(config.NotionApiKey, config.NotionDatabaseId)
+	notionService := load.NotionServiceImpl{NotionApiClient: notionApiClient}
 
-	RunTmdbWatchlistSeriesToNotionDbPipeline(tmdbService, notionService)
+	RunTmdbWatchlistSeriesToNotionDbPipeline(tmdbService, &notionService)
 }
 
 func RunTmdbWatchlistSeriesToNotionDbPipeline(

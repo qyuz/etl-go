@@ -35,7 +35,7 @@ func TestRunTmdbWatchlistSeriesToNotionDbPipelineWhenPageExistShouldNotCreateNew
 		CreateDatabasePageCalls: [][]load.Property{
 			{
 				load.TextProperty{
-					Name:  "Movie Id",
+					Name:  "Movie ID",
 					Value: strconv.Itoa(watchlistSeriesData[0].ID),
 				},
 			},
@@ -67,15 +67,16 @@ func TestRunTmdbWatchlistSeriesToNotionDbPipelineShouldUpsertAllProps(t *testing
 
 	// Assert
 	createdDatabasePageProps := notionApiClientMock.CreateDatabasePageCalls[0]
+
 	movieIdProperty, ok := createdDatabasePageProps[0].(load.TextProperty)
 	if !ok {
-		panic(fmt.Sprintf("Expected Movie Id property to be TextProperty, but got %s", movieIdProperty))
+		panic(fmt.Sprintf("Expected Movie ID property to be TextProperty, but got %s", movieIdProperty))
 	}
-	if movieIdProperty.GetName() != "Movie Id" {
-		panic(fmt.Sprintf("Expected Movie Id property to be created, but got %s", movieIdProperty.GetName()))
+	if movieIdProperty.GetName() != "Movie ID" {
+		panic(fmt.Sprintf("Expected Movie ID property to be created, but got %s", movieIdProperty.GetName()))
 	}
 	if movieIdProperty.Value != "1" {
-		panic(fmt.Sprintf("Expected Movie Id property value to be 1, but got %s", movieIdProperty.Value))
+		panic(fmt.Sprintf("Expected Movie ID property value to be 1, but got %s", movieIdProperty.Value))
 	}
 
 	movieNameProperty, ok := createdDatabasePageProps[1].(load.TextProperty)

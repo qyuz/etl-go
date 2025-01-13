@@ -1,6 +1,9 @@
 package config
 
 var (
+	NotionApiKey     = "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"
+	NotionDatabaseId = "16626ea29ff180e3a9d1e83f92622638"
+
 	TmdbApiKey = "2a5641277e811c5ab149ad870a6e7f2b"
 	TmdbBearer = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYTU2NDEyNzdlODExYzVhYjE0OWFkODcwYTZlN2YyYiIsIm5iZiI6MTczMzU2MDk2OC4xMDgsInN1YiI6IjY3NTQwYTg4M2E5YzY5OTBiMWU0ODVhZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.7VVoSWsAfesz9dckneFDajVMDRqX6XV67rR3nyoh3rU"
 )

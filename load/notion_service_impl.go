@@ -6,7 +6,7 @@ type NotionServiceImpl struct {
 
 func (n *NotionServiceImpl) UpsertVideoMedia(videoMedia VideoMedia) {
 	movieIdProperty := TextProperty{
-		Name:  "Movie Id",
+		Name:  "Movie ID",
 		Value: videoMedia.Id,
 	}
 
