@@ -5,11 +5,13 @@ import (
 	"etl/extract"
 	"etl/load"
 	"etl/transform"
-	"fmt"
 )
 
 func InitAndRunTmdbWatchlistSeriesToNotionDbPipeline() {
+	config := config.NewConfig()
+
 	tmdbService := extract.NewTmdbService(config.TmdbApiKey, config.TmdbBearer)
+
 	notionApiClient := load.NewNotionApiClientImpl(config.NotionApiKey, config.NotionDatabaseId)
 	notionService := load.NotionServiceImpl{NotionApiClient: notionApiClient}
 
@@ -21,10 +23,10 @@ func RunTmdbWatchlistSeriesToNotionDbPipeline(
 	notionService load.NotionService,
 ) {
 	tmdbSeries := tmdbService.GetWatchlistSeries()
+
 	for _, series := range tmdbSeries {
 		videoMedia := transform.TransformTmdbSeriesToNotionVideoMedia(series)
-		notionService.UpsertVideoMedia(videoMedia)
 
-		fmt.Println("Upserting Notion page for series: ", videoMedia.Name)
+		notionService.UpsertVideoMedia(videoMedia)
 	}
 }

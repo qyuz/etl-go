@@ -1,9 +1,35 @@
 package config
 
-var (
-	NotionApiKey     = "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"
-	NotionDatabaseId = "16626ea29ff180e3a9d1e83f92622638"
+import (
+	"os"
 
-	TmdbApiKey = "2a5641277e811c5ab149ad870a6e7f2b"
-	TmdbBearer = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYTU2NDEyNzdlODExYzVhYjE0OWFkODcwYTZlN2YyYiIsIm5iZiI6MTczMzU2MDk2OC4xMDgsInN1YiI6IjY3NTQwYTg4M2E5YzY5OTBiMWU0ODVhZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.7VVoSWsAfesz9dckneFDajVMDRqX6XV67rR3nyoh3rU"
+	"github.com/joho/godotenv"
 )
+
+type config struct {
+	NotionApiKey     string
+	NotionDatabaseId string
+	TmdbApiKey       string
+	TmdbBearer       string
+}
+
+func NewConfig(path ...string) *config {
+	var envPath string
+
+	if len(path) > 0 {
+		envPath = path[0]
+	} else {
+		envPath = ".env.test"
+	}
+
+	if err := godotenv.Load(envPath); err != nil {
+		panic(err)
+	}
+
+	return &config{
+		NotionApiKey:     os.Getenv("NOTION_API_KEY"),
+		NotionDatabaseId: os.Getenv("NOTION_DATABASE_ID"),
+		TmdbApiKey:       os.Getenv("TMDB_API_KEY"),
+		TmdbBearer:       os.Getenv("TMDB_BEARER"),
+	}
+}
