@@ -7,7 +7,7 @@ type TmdbService interface {
 }
 
 type TmdbSeries struct {
-	ID   int
+	Id   int
 	Name string
 }
 

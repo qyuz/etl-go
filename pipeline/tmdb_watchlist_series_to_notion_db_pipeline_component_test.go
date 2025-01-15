@@ -36,7 +36,7 @@ func TestRunTmdbWatchlistSeriesToNotionDbPipelineWhenPageExistShouldNotCreateNew
 			{
 				load.TextProperty{
 					Name:  "Movie ID",
-					Value: strconv.Itoa(watchlistSeriesData[0].ID),
+					Value: strconv.Itoa(watchlistSeriesData[0].Id),
 				},
 			},
 		},

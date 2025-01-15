@@ -8,7 +8,7 @@ import (
 
 func TransformTmdbSeriesToNotionVideoMedia(tmdbSeries extract.TmdbSeries) load.VideoMedia {
 	return load.VideoMedia{
-		Id:   strconv.Itoa(tmdbSeries.ID),
+		Id:   strconv.Itoa(tmdbSeries.Id),
 		Name: tmdbSeries.Name,
 	}
 }

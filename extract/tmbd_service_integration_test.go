@@ -15,6 +15,6 @@ func TestGetWatchlistSeries(t *testing.T) {
 		t.Error("Expected at least one series in watchlist")
 	}
 	for _, series := range tmdbSeries {
-		fmt.Printf("ID: %d, Name: %s\n", series.ID, series.Name)
+		fmt.Printf("ID: %d, Name: %s\n", series.Id, series.Name)
 	}
 }

@@ -80,7 +80,7 @@ func (t TmdbServiceImpl) GetWatchlistSeries() []TmdbSeries {
 	tmdbSeries := []TmdbSeries{}
 	for _, series := range watchlistSeriesResponse.Results {
 		tmdbSeries = append(tmdbSeries, TmdbSeries{
-			ID:   series.ID,
+			Id:   series.ID,
 			Name: series.Name,
 		})
 	}

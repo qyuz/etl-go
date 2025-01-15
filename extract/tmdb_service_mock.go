@@ -13,7 +13,7 @@ func (t *TmdbServiceMock) GetWatchlistSeries() []TmdbSeries {
 
 func GetWatchlistSeriesMockData() []TmdbSeries {
 	tmdbSeries := []TmdbSeries{
-		{ID: 1, Name: "Breaking Bad"},
+		{Id: 1, Name: "Breaking Bad"},
 	}
 	return tmdbSeries
 }
