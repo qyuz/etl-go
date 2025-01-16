@@ -2,6 +2,7 @@ package load
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/jomei/notionapi"
 )
@@ -25,28 +26,35 @@ func (n *NotionApiClientImpl) CreateDatabasePage(properties []Property) string {
 	notionApiProperties := notionapi.Properties{}
 
 	for _, property := range properties {
-		switch property.GetName() {
-		case "Name":
-			notionApiProperties["Name"] = notionapi.TitleProperty{
-				Title: []notionapi.RichText{
-					{
-						Text: &notionapi.Text{
-							Content: property.(TextProperty).Value,
+		switch typedProperty := property.(type) {
+		case TextProperty:
+			switch property.GetName() {
+			case "Name":
+				notionApiProperties["Name"] = notionapi.TitleProperty{
+					Title: []notionapi.RichText{
+						{
+							Text: &notionapi.Text{
+								Content: typedProperty.Value,
+							},
 						},
 					},
-				},
+				}
+			default:
+				notionApiProperties[property.GetName()] = notionapi.RichTextProperty{
+					RichText: []notionapi.RichText{
+						{
+							Text: &notionapi.Text{
+								Content: typedProperty.Value,
+							},
+						},
+					},
+				}
 			}
 		default:
-			notionApiProperties[property.GetName()] = notionapi.RichTextProperty{
-				RichText: []notionapi.RichText{
-					{
-						Text: &notionapi.Text{
-							Content: property.(TextProperty).Value,
-						},
-					},
-				},
-			}
+			msg := fmt.Sprint("Unsupported property type with name: ", typedProperty.GetName())
+			panic(msg)
 		}
+
 	}
 
 	page, err := n.client.Page.Create(context.Background(), &notionapi.PageCreateRequest{

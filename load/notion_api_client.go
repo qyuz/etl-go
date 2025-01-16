@@ -7,7 +7,6 @@ type NotionApiClient interface {
 
 type Property interface {
 	GetName() string
-	GetType() string
 }
 
 type TextProperty struct {
@@ -17,8 +16,4 @@ type TextProperty struct {
 
 func (p TextProperty) GetName() string {
 	return p.Name
-}
-
-func (p TextProperty) GetType() string {
-	return "text"
 }
