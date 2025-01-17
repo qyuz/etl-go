@@ -1,6 +1,6 @@
 package load
 
-import "fmt"
+import "log"
 
 type NotionServiceImpl struct {
 	NotionApiClient NotionApiClient
@@ -22,10 +22,10 @@ func (n *NotionServiceImpl) UpsertVideoMedia(videoMedia VideoMedia) {
 
 	pageExists := n.NotionApiClient.QueryDatabasePageExists(movieIdProperty)
 	if pageExists {
-		fmt.Println("Page exists for series: ", videoMedia.Name)
+		log.Println("Page exists for series:", videoMedia.Name)
 		return
 	}
 
-	fmt.Println("Creating page for series: ", videoMedia.Name)
+	log.Println("Creating page for series:", videoMedia.Name)
 	n.NotionApiClient.CreateDatabasePage(properties)
 }

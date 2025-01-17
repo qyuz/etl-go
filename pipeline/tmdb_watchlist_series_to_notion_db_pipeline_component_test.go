@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-func TestRunTmdbWatchlistSeriesToNotionDbPipelineWhenPageDoesntExistShouldCreateNewPage(t *testing.T) {
+func TestRunTmdbWatchlistSeriesToNotionDbPipeline_WhenPageDoesntExistShouldCreateNewPage(t *testing.T) {
 	tmdbServiceMock := extract.TmdbServiceMock{}
 
 	notionApiClientMock := &load.NotionApiClientMock{}
@@ -27,7 +27,7 @@ func TestRunTmdbWatchlistSeriesToNotionDbPipelineWhenPageDoesntExistShouldCreate
 	}
 }
 
-func TestRunTmdbWatchlistSeriesToNotionDbPipelineWhenPageExistShouldNotCreateNewPage(t *testing.T) {
+func TestRunTmdbWatchlistSeriesToNotionDbPipeline_WhenPageExistShouldNotCreateNewPage(t *testing.T) {
 	tmdbServiceMock := extract.TmdbServiceMock{}
 
 	watchlistSeriesData := extract.GetWatchlistSeriesMockData()
@@ -56,7 +56,7 @@ func TestRunTmdbWatchlistSeriesToNotionDbPipelineWhenPageExistShouldNotCreateNew
 	}
 }
 
-func TestRunTmdbWatchlistSeriesToNotionDbPipelineShouldUpsertAllProps(t *testing.T) {
+func ExampleRunTmdbWatchlistSeriesToNotionDbPipeline_ShouldUpsertAllProps() {
 	tmdbServiceMock := extract.TmdbServiceMock{}
 
 	notionApiClientMock := &load.NotionApiClientMock{}
@@ -69,25 +69,12 @@ func TestRunTmdbWatchlistSeriesToNotionDbPipelineShouldUpsertAllProps(t *testing
 	createdDatabasePageProps := notionApiClientMock.CreateDatabasePageCalls[0]
 
 	movieIdProperty, ok := createdDatabasePageProps[0].(load.TextProperty)
-	if !ok {
-		panic(fmt.Sprintf("Expected Movie ID property to be TextProperty, but got %s", movieIdProperty))
-	}
-	if movieIdProperty.GetName() != "Movie ID" {
-		panic(fmt.Sprintf("Expected Movie ID property to be created, but got %s", movieIdProperty.GetName()))
-	}
-	if movieIdProperty.Value != "1" {
-		panic(fmt.Sprintf("Expected Movie ID property value to be 1, but got %s", movieIdProperty.Value))
-	}
+	fmt.Println("TextProperty:", ok, "| Name:", movieIdProperty.GetName(), "| Value:", movieIdProperty.Value)
 
 	movieNameProperty, ok := createdDatabasePageProps[1].(load.TextProperty)
-	if !ok {
-		panic(fmt.Sprintf("Expected Name property to be TextProperty, but got %s", movieNameProperty))
-	}
-	if movieNameProperty.GetName() != "Name" {
-		panic(fmt.Sprintf("Expected Name property to be created, but got %s", movieNameProperty.GetName()))
-	}
-	if movieNameProperty.Value != "Breaking Bad" {
-		panic(fmt.Sprintf("Expected Name property value to be Breaking Bad, but got %s", movieNameProperty.Value))
-	}
+	fmt.Println("TextProperty:", ok, "| Name:", movieNameProperty.GetName(), "| Value:", movieNameProperty.Value)
 
+	// Output:
+	// TextProperty: true | Name: Movie ID | Value: 1
+	// TextProperty: true | Name: Name | Value: Breaking Bad
 }
