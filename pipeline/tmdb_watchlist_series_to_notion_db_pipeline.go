@@ -7,9 +7,7 @@ import (
 	"etl/transform"
 )
 
-func InitAndRunTmdbWatchlistSeriesToNotionDbPipeline() {
-	config := config.NewConfig()
-
+func InitAndRunTmdbWatchlistSeriesToNotionDbPipeline(config *config.Config) {
 	tmdbService := extract.NewTmdbService(config.TmdbApiKey, config.TmdbBearer)
 
 	notionApiClient := load.NewNotionApiClientImpl(config.NotionApiKey, config.NotionDatabaseId)

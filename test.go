@@ -1,3 +1,6 @@
+//go:build ignore
+// +build ignore
+
 package main
 
 import (
@@ -6,6 +9,6 @@ import (
 )
 
 func main() {
-	config := config.NewConfig(".env.prod")
+	config := config.NewConfig(".env.test")
 	pipeline.InitAndRunTmdbWatchlistSeriesToNotionDbPipeline(config)
 }
