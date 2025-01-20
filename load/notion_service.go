@@ -1,6 +1,6 @@
 package load
 
-type NotionService interface {
+type NotionServicer interface {
 	UpsertVideoMedia(videoMedia VideoMedia)
 }
 

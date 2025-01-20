@@ -10,15 +10,15 @@ import (
 func InitAndRunTmdbWatchlistSeriesToNotionDbPipeline(config *config.Config) {
 	tmdbService := extract.NewTmdbService(config.TmdbApiKey, config.TmdbBearer)
 
-	notionApiClient := load.NewNotionApiClientImpl(config.NotionApiKey, config.NotionDatabaseId)
-	notionService := load.NotionServiceImpl{NotionApiClient: notionApiClient}
+	notionApiClient := load.NewNotionApiClient(config.NotionApiKey, config.NotionDatabaseId)
+	notionService := load.NotionService{NotionApiClient: notionApiClient}
 
 	RunTmdbWatchlistSeriesToNotionDbPipeline(tmdbService, &notionService)
 }
 
 func RunTmdbWatchlistSeriesToNotionDbPipeline(
-	tmdbService extract.TmdbService,
-	notionService load.NotionService,
+	tmdbService extract.TmdbServicer,
+	notionService load.NotionServicer,
 ) {
 	tmdbSeries := tmdbService.GetWatchlistSeries()
 

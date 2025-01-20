@@ -7,22 +7,22 @@ import (
 	"github.com/jomei/notionapi"
 )
 
-type NotionApiClientImpl struct {
+type NotionApiClient struct {
 	client     *notionapi.Client
 	databaseId string
 }
 
-func NewNotionApiClientImpl(apiKey string, databaseId string) *NotionApiClientImpl {
+func NewNotionApiClient(apiKey string, databaseId string) NotionApiClienter {
 	token := notionapi.Token(apiKey)
 	client := notionapi.NewClient(token)
 
-	return &NotionApiClientImpl{
+	return &NotionApiClient{
 		client:     client,
 		databaseId: databaseId,
 	}
 }
 
-func (n *NotionApiClientImpl) CreateDatabasePage(properties []Property) string {
+func (n *NotionApiClient) CreateDatabasePage(properties []Property) string {
 	notionApiProperties := notionapi.Properties{}
 
 	for _, property := range properties {
@@ -71,7 +71,7 @@ func (n *NotionApiClientImpl) CreateDatabasePage(properties []Property) string {
 	return page.ID.String()
 }
 
-func (n NotionApiClientImpl) QueryDatabasePageExists(property TextProperty) bool {
+func (n NotionApiClient) QueryDatabasePageExists(property TextProperty) bool {
 	DatabaseQueryResponse, err := n.client.Database.Query(context.Background(), notionapi.DatabaseID(n.databaseId), &notionapi.DatabaseQueryRequest{
 		Filter: notionapi.PropertyFilter{
 			Property: property.GetName(),

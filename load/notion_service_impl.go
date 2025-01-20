@@ -2,11 +2,11 @@ package load
 
 import "log"
 
-type NotionServiceImpl struct {
-	NotionApiClient NotionApiClient
+type NotionService struct {
+	NotionApiClient NotionApiClienter
 }
 
-func (n *NotionServiceImpl) UpsertVideoMedia(videoMedia VideoMedia) {
+func (n *NotionService) UpsertVideoMedia(videoMedia VideoMedia) {
 	movieIdProperty := TextProperty{
 		Name:  "Movie ID",
 		Value: videoMedia.Id,

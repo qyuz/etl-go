@@ -2,7 +2,7 @@ package extract
 
 import "testing"
 
-type TmdbService interface {
+type TmdbServicer interface {
 	GetWatchlistSeries() []TmdbSeries
 }
 

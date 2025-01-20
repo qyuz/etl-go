@@ -1,6 +1,6 @@
 package load
 
-type NotionApiClient interface {
+type NotionApiClienter interface {
 	CreateDatabasePage(properties []Property) string
 	QueryDatabasePageExists(property TextProperty) bool
 }

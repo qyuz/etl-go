@@ -9,18 +9,18 @@ import (
 	"github.com/ryanbradynd05/go-tmdb"
 )
 
-type TmdbServiceImpl struct {
+type TmdbService struct {
 	bearer  string
 	tmdbApi *tmdb.TMDb
 }
 
-func NewTmdbService(apiKey string, bearer string) TmdbService {
+func NewTmdbService(apiKey string, bearer string) TmdbServicer {
 	config := tmdb.Config{
 		APIKey: apiKey,
 	}
 	tmdbApi := tmdb.Init(config)
 
-	return TmdbServiceImpl{
+	return TmdbService{
 		bearer:  bearer,
 		tmdbApi: tmdbApi,
 	}
@@ -48,7 +48,7 @@ type GetWatchlistSeriesResponse struct {
 	TotalResults int `json:"total_results"`
 }
 
-func (t TmdbServiceImpl) GetWatchlistSeries() []TmdbSeries {
+func (t TmdbService) GetWatchlistSeries() []TmdbSeries {
 	// Docs at https://developer.themoviedb.org/reference/account-watchlist-tv
 	url := "https://api.themoviedb.org/3/account/21674720/watchlist/tv?language=en-US&page=1&sort_by=created_at.asc"
 

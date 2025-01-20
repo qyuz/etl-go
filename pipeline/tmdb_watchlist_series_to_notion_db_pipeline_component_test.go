@@ -12,7 +12,7 @@ func TestRunTmdbWatchlistSeriesToNotionDbPipeline_WhenPageDoesntExistShouldCreat
 	tmdbServiceMock := extract.TmdbServiceMock{}
 
 	notionApiClientMock := &load.NotionApiClientMock{}
-	notionService := &load.NotionServiceImpl{NotionApiClient: notionApiClientMock}
+	notionService := &load.NotionService{NotionApiClient: notionApiClientMock}
 
 	// Act
 	RunTmdbWatchlistSeriesToNotionDbPipeline(&tmdbServiceMock, notionService)
@@ -41,7 +41,7 @@ func TestRunTmdbWatchlistSeriesToNotionDbPipeline_WhenPageExistShouldNotCreateNe
 			},
 		},
 	}
-	notionService := &load.NotionServiceImpl{NotionApiClient: notionApiClientMock}
+	notionService := &load.NotionService{NotionApiClient: notionApiClientMock}
 
 	// Act
 	RunTmdbWatchlistSeriesToNotionDbPipeline(&tmdbServiceMock, notionService)
@@ -60,7 +60,7 @@ func ExampleRunTmdbWatchlistSeriesToNotionDbPipeline_ShouldUpsertAllProps() {
 	tmdbServiceMock := extract.TmdbServiceMock{}
 
 	notionApiClientMock := &load.NotionApiClientMock{}
-	notionService := &load.NotionServiceImpl{NotionApiClient: notionApiClientMock}
+	notionService := &load.NotionService{NotionApiClient: notionApiClientMock}
 
 	// Act
 	RunTmdbWatchlistSeriesToNotionDbPipeline(&tmdbServiceMock, notionService)
