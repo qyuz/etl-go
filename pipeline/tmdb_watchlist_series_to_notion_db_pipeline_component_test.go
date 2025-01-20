@@ -66,15 +66,8 @@ func ExampleRunTmdbWatchlistSeriesToNotionDbPipeline_ShouldUpsertAllProps() {
 	RunTmdbWatchlistSeriesToNotionDbPipeline(&tmdbServiceMock, notionService)
 
 	// Assert
-	createdDatabasePageProps := notionApiClientMock.CreateDatabasePageCalls[0]
-
-	movieIdProperty, ok := createdDatabasePageProps[0].(load.TextProperty)
-	fmt.Println("TextProperty:", ok, "| Name:", movieIdProperty.GetName(), "| Value:", movieIdProperty.Value)
-
-	movieNameProperty, ok := createdDatabasePageProps[1].(load.TextProperty)
-	fmt.Println("TextProperty:", ok, "| Name:", movieNameProperty.GetName(), "| Value:", movieNameProperty.Value)
+	fmt.Printf("%#v\n", notionApiClientMock.CreateDatabasePageCalls)
 
 	// Output:
-	// TextProperty: true | Name: Movie ID | Value: 1
-	// TextProperty: true | Name: Name | Value: Breaking Bad
+	// [][]load.Property{[]load.Property{load.TextProperty{Name:"Movie ID", Value:"1"}, load.TextProperty{Name:"Name", Value:"Breaking Bad"}}}
 }

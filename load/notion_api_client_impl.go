@@ -26,7 +26,7 @@ func (n *NotionApiClientImpl) CreateDatabasePage(properties []Property) string {
 	notionApiProperties := notionapi.Properties{}
 
 	for _, property := range properties {
-		switch typedProperty := property.(type) {
+		switch property := property.(type) {
 		case TextProperty:
 			switch property.GetName() {
 			case "Name":
@@ -34,7 +34,7 @@ func (n *NotionApiClientImpl) CreateDatabasePage(properties []Property) string {
 					Title: []notionapi.RichText{
 						{
 							Text: &notionapi.Text{
-								Content: typedProperty.Value,
+								Content: property.Value,
 							},
 						},
 					},
@@ -44,14 +44,14 @@ func (n *NotionApiClientImpl) CreateDatabasePage(properties []Property) string {
 					RichText: []notionapi.RichText{
 						{
 							Text: &notionapi.Text{
-								Content: typedProperty.Value,
+								Content: property.Value,
 							},
 						},
 					},
 				}
 			}
 		default:
-			msg := fmt.Sprint("Unsupported property type with name: ", typedProperty.GetName())
+			msg := fmt.Sprint("Unsupported property type with name: ", property.GetName())
 			panic(msg)
 		}
 
