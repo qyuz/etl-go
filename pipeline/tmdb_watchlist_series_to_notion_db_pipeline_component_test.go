@@ -8,8 +8,16 @@ import (
 	"testing"
 )
 
+var getWatchlistSeriesMock = func() []extract.TmdbSeries {
+	return []extract.TmdbSeries{
+		{Id: 1, Name: "Breaking Bad"},
+	}
+}
+
 func TestRunTmdbWatchlistSeriesToNotionDbPipeline_WhenPageDoesntExistShouldCreateNewPage(t *testing.T) {
-	tmdbServiceMock := extract.TmdbServiceMock{}
+	tmdbServiceMock := extract.TmdbServiceMock{
+		GetWatchlistSeriesMock: &getWatchlistSeriesMock,
+	}
 
 	notionApiClientMock := &load.NotionApiClientMock{}
 	notionService := &load.NotionService{NotionApiClient: notionApiClientMock}
@@ -28,9 +36,11 @@ func TestRunTmdbWatchlistSeriesToNotionDbPipeline_WhenPageDoesntExistShouldCreat
 }
 
 func TestRunTmdbWatchlistSeriesToNotionDbPipeline_WhenPageExistShouldNotCreateNewPage(t *testing.T) {
-	tmdbServiceMock := extract.TmdbServiceMock{}
+	tmdbServiceMock := extract.TmdbServiceMock{
+		GetWatchlistSeriesMock: &getWatchlistSeriesMock,
+	}
 
-	watchlistSeriesData := extract.GetWatchlistSeriesMockData()
+	watchlistSeriesData := getWatchlistSeriesMock()
 	notionApiClientMock := &load.NotionApiClientMock{
 		CreateDatabasePageCalls: [][]load.Property{
 			{
@@ -57,7 +67,9 @@ func TestRunTmdbWatchlistSeriesToNotionDbPipeline_WhenPageExistShouldNotCreateNe
 }
 
 func ExampleRunTmdbWatchlistSeriesToNotionDbPipeline_ShouldUpsertAllProps() {
-	tmdbServiceMock := extract.TmdbServiceMock{}
+	tmdbServiceMock := extract.TmdbServiceMock{
+		GetWatchlistSeriesMock: &getWatchlistSeriesMock,
+	}
 
 	notionApiClientMock := &load.NotionApiClientMock{}
 	notionService := &load.NotionService{NotionApiClient: notionApiClientMock}

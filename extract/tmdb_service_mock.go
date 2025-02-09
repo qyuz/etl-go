@@ -8,12 +8,5 @@ func (t *TmdbServiceMock) GetWatchlistSeries() []TmdbSeries {
 	if t.GetWatchlistSeriesMock != nil {
 		return (*t.GetWatchlistSeriesMock)()
 	}
-	return GetWatchlistSeriesMockData()
-}
-
-func GetWatchlistSeriesMockData() []TmdbSeries {
-	tmdbSeries := []TmdbSeries{
-		{Id: 1, Name: "Breaking Bad"},
-	}
-	return tmdbSeries
+	panic("GetWatchlistSeriesMock is not set")
 }
