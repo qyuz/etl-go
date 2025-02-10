@@ -14,7 +14,8 @@ type TmdbService struct {
 	tmdbApi *tmdb.TMDb
 }
 
-func NewTmdbService(apiKey string, bearer string) TmdbServicer {
+// func NewTmdbService(apiKey string, bearer string) TmdbServicer {
+func NewTmdbService(apiKey string, bearer string) TmdbService {
 	config := tmdb.Config{
 		APIKey: apiKey,
 	}
@@ -86,4 +87,13 @@ func (t TmdbService) GetWatchlistSeries() []TmdbSeries {
 	}
 
 	return tmdbSeries
+}
+
+func (t TmdbService) GetSeriesDetails(id int) *tmdb.TV {
+	tvInfo, error := t.tmdbApi.GetTvInfo(id, nil)
+	if error != nil {
+		panic(error)
+	}
+
+	return tvInfo
 }
